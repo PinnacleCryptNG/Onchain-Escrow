@@ -1,0 +1,6 @@
+{
+  "name": "Onchain Escrow",
+  "description": "Trustless onchain escrow application on Base Sepolia where buyers lock funds, sellers deliver, and smart contracts enforce release or deadline-based reclaim without middlemen.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
