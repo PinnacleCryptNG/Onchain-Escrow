@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Lock, AlertCircle, Clock, ArrowRight, Shield, CheckCircle2, User } from 'lucide-react';
+import { X, Lock, AlertCircle, Clock, ArrowRight, Shield, CheckCircle2, User, Sparkles } from 'lucide-react';
 import { isAddress, getAddress } from 'viem';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
 interface CreateDealModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
   onSubmit,
 }) => {
   const { address: userAddress, isConnected } = useAccount();
+  const { authenticated, login } = usePrivy();
 
   const [title, setTitle] = useState('');
   const [seller, setSeller] = useState('');
@@ -296,23 +298,34 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={isSubmitting || !isConnected}
-              className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-600/25 disabled:opacity-50 transition-all flex items-center gap-2"
-            >
-              {isSubmitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Submitting to Chain...</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  <span>Deposit & Create Deal</span>
-                </>
-              )}
-            </button>
+            {!authenticated ? (
+              <button
+                type="button"
+                onClick={() => login()}
+                className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-indigo-600/25 transition-all flex items-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Log In with Privy to Deposit</span>
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={isSubmitting || !isConnected}
+                className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-600/25 disabled:opacity-50 transition-all flex items-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Submitting to Chain...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-4 h-4" />
+                    <span>Deposit & Create Deal</span>
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </form>
       </div>

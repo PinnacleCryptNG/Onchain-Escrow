@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 import { Navbar } from './components/Navbar.tsx';
 import { ProtocolStats } from './components/ProtocolStats.tsx';
 import { HowItWorksBanner } from './components/HowItWorksBanner.tsx';
@@ -8,11 +9,13 @@ import { CreateDealModal } from './components/CreateDealModal.tsx';
 import { TransactionModal } from './components/TransactionModal.tsx';
 import { ContractConfigModal } from './components/ContractConfigModal.tsx';
 import { useEscrow } from './hooks/useEscrow.ts';
-import { ShieldCheck, Plus, ExternalLink, Lock, CheckCircle2, Droplets, Info } from 'lucide-react';
+import { ShieldCheck, Plus, ExternalLink, Lock, CheckCircle2, Droplets, Info, Sparkles } from 'lucide-react';
 import { getExplorerAddressUrl, truncateAddress } from './contract/config.ts';
 
 export default function App() {
-  const { address: userAddress, isConnected } = useAccount();
+  const { address: wagmiAddress, isConnected } = useAccount();
+  const { user, authenticated, login } = usePrivy();
+  const userAddress = wagmiAddress || user?.wallet?.address;
   const {
     contractAddress,
     setContractAddress,

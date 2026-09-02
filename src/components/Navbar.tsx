@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ShieldCheck, Layers, ExternalLink, Settings, Droplets, RefreshCw } from 'lucide-react';
 import { getExplorerAddressUrl, truncateAddress } from '../contract/config.ts';
+import { PrivyAuthButton } from './PrivyAuthButton.tsx';
 
 interface NavbarProps {
   contractAddress: string;
@@ -117,17 +117,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Settings className="w-4 h-4" />
             </button>
 
-            {/* RainbowKit Connect Button */}
-            <div className="scale-95 origin-right">
-              <ConnectButton
-                showBalance={false}
-                chainStatus="icon"
-                accountStatus={{
-                  smallScreen: 'avatar',
-                  largeScreen: 'full',
-                }}
-              />
-            </div>
+            {/* Privy Auth / Wallet Button */}
+            <PrivyAuthButton />
           </div>
         </div>
       </div>
