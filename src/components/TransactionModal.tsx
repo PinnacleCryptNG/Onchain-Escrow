@@ -27,8 +27,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   const isError = txState.step === 'error';
 
   const modalElement = (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-sm bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl p-6 overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm">
+      <div className="relative w-full max-w-sm bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Close button (only when finished or errored) */}
         {(isSuccess || isError) && (
           <button
@@ -67,7 +67,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
           {/* Heading */}
           <div>
-            <h3 className="text-base font-bold text-white tracking-tight">
+            <h3 className="text-base font-bold text-white tracking-tight font-display">
               {isSigning && 'Sign in Wallet'}
               {isMining && 'Confirming on Base'}
               {isSuccess && 'Transaction Confirmed'}
@@ -91,7 +91,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 rel="noopener noreferrer"
                 className="font-mono text-blue-400 hover:text-blue-300 inline-flex items-center gap-1 font-medium"
               >
-                <span>{txState.txHash.slice(0, 10)}...{txState.txHash.slice(-8)}</span>
+                <span>{txState.txHash.slice(0, 8)}...{txState.txHash.slice(-6)}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             </div>

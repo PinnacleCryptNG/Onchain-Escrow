@@ -111,17 +111,17 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
   };
 
   const modalElement = (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
       <div className="relative w-full max-w-lg bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white tracking-tight">Create Escrow Deal</h2>
-              <p className="text-[11px] text-slate-400">Deposit ETH safely on Base Sepolia</p>
+              <h2 className="text-sm font-bold text-white tracking-tight font-display">Create Escrow Deal</h2>
+              <p className="text-[11px] text-slate-400">Lock ETH securely on Base Sepolia</p>
             </div>
           </div>
           <button
@@ -134,7 +134,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-3.5 sm:space-y-4">
           {errorMsg && (
             <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
@@ -144,7 +144,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
           {/* Deal Title */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold text-slate-300 mb-1">
               Deal Title or Deliverable Description
             </label>
             <input
@@ -158,11 +158,9 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
           {/* Seller Address */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-semibold text-slate-300">
-                Seller's Wallet Address
-              </label>
-            </div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1">
+              Seller's Wallet Address
+            </label>
             <input
               type="text"
               placeholder="0x..."
@@ -174,11 +172,11 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
           {/* Amount in ETH */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center justify-between mb-1">
               <label className="block text-xs font-semibold text-slate-300">
                 Deposit Amount (ETH)
               </label>
-              <span className="text-[11px] text-slate-400">Base Sepolia</span>
+              <span className="text-[10px] sm:text-[11px] text-slate-400">Base Sepolia</span>
             </div>
             <input
               type="number"
@@ -190,15 +188,15 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
             />
 
             {/* Quick Presets */}
-            <div className="flex items-center gap-1.5 mt-2">
-              <span className="text-[11px] text-slate-500">Presets:</span>
+            <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+              <span className="text-[10px] sm:text-[11px] text-slate-500">Presets:</span>
               <div className="flex flex-wrap gap-1.5">
                 {ETH_PRESETS.map((eth) => (
                   <button
                     type="button"
                     key={eth}
                     onClick={() => setAmountEth(eth)}
-                    className="px-2 py-0.5 rounded-lg text-xs font-mono bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition-colors cursor-pointer"
+                    className="px-2 py-0.5 rounded-lg text-[11px] font-mono bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition-colors cursor-pointer"
                   >
                     {eth} ETH
                   </button>
@@ -209,7 +207,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
           {/* Deadline Setting */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center justify-between mb-1">
               <label className="block text-xs font-semibold text-slate-300">
                 Delivery Deadline / Refund Window
               </label>
@@ -217,7 +215,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setDeadlineMode('preset')}
-                  className={`px-2 py-0.5 rounded-md text-[11px] transition-colors cursor-pointer ${
+                  className={`px-2 py-0.5 rounded-md text-[10px] transition-colors cursor-pointer ${
                     deadlineMode === 'preset' ? 'bg-slate-800 text-white font-medium' : 'text-slate-400'
                   }`}
                 >
@@ -226,7 +224,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setDeadlineMode('custom')}
-                  className={`px-2 py-0.5 rounded-md text-[11px] transition-colors cursor-pointer ${
+                  className={`px-2 py-0.5 rounded-md text-[10px] transition-colors cursor-pointer ${
                     deadlineMode === 'custom' ? 'bg-slate-800 text-white font-medium' : 'text-slate-400'
                   }`}
                 >
@@ -236,7 +234,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
             </div>
 
             {deadlineMode === 'preset' ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2">
                 {DEADLINE_PRESETS.map((p) => (
                   <button
                     type="button"
@@ -264,7 +262,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-800/80">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800/80">
             <button
               type="button"
               onClick={onClose}
@@ -308,4 +306,3 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
   return createPortal(modalElement, document.body);
 };
-

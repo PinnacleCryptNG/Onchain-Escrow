@@ -162,11 +162,11 @@ export const PrivyAuthModal: React.FC = () => {
   };
 
   const modalElement = (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-[400px] bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-[360px] sm:max-w-[400px] bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-3">
+        <div className="flex items-center justify-between px-4 sm:px-6 pt-4 sm:pt-5 pb-2.5">
           {view !== 'main' && !profile.isAuthenticated ? (
             <button
               onClick={() => setView('main')}
@@ -179,7 +179,7 @@ export const PrivyAuthModal: React.FC = () => {
               <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-white">
                 <Lock className="w-3.5 h-3.5" />
               </div>
-              <span className="text-xs font-bold text-slate-300 tracking-tight font-mono">
+              <span className="text-xs font-bold text-slate-300 tracking-tight font-display">
                 Base Escrow
               </span>
             </div>
@@ -194,7 +194,7 @@ export const PrivyAuthModal: React.FC = () => {
         </div>
 
         {/* Modal Body */}
-        <div className="px-6 pb-6 pt-2">
+        <div className="px-4 sm:px-6 pb-5 sm:pb-6 pt-1 sm:pt-2">
           {profile.isAuthenticated && profile.address ? (
             /* Authenticated Account View */
             <div className="space-y-4">
@@ -588,7 +588,7 @@ export const PrivyAuthModal: React.FC = () => {
               </div>
 
               {/* 6-digit PIN boxes */}
-              <div className="flex justify-center gap-2 py-2" onPaste={handleOtpPaste}>
+              <div className="flex justify-center gap-1.5 sm:gap-2 py-2" onPaste={handleOtpPaste}>
                 {otpDigits.map((digit, idx) => (
                   <input
                     key={idx}
@@ -601,7 +601,7 @@ export const PrivyAuthModal: React.FC = () => {
                     value={digit}
                     onChange={(e) => handleOtpDigitChange(idx, e.target.value)}
                     onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                    className="w-10 h-12 text-center font-mono text-lg font-bold text-white rounded-xl bg-[#090d16] border border-slate-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all"
+                    className="w-8.5 sm:w-10 h-10.5 sm:h-12 text-center font-mono text-base sm:text-lg font-bold text-white rounded-xl bg-[#090d16] border border-slate-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all"
                   />
                 ))}
               </div>

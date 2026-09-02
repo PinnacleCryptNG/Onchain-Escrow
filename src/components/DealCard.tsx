@@ -43,7 +43,7 @@ export const DealCard: React.FC<DealCardProps> = ({
       const diff = deal.deadlineTimestamp - now;
 
       if (diff <= 0) {
-        setTimeLeftStr('Deadline passed');
+        setTimeLeftStr('Expired');
         setIsCurrentlyExpired(true);
       } else {
         setIsCurrentlyExpired(false);
@@ -88,49 +88,49 @@ export const DealCard: React.FC<DealCardProps> = ({
   const canReclaim = isActive && isBuyer && isCurrentlyExpired;
 
   return (
-    <div className="relative rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700/80 transition-all p-5 sm:p-6 flex flex-col justify-between">
+    <div className="w-full relative rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700/80 transition-all p-4 sm:p-5 flex flex-col justify-between overflow-hidden">
       {/* Top Card Header */}
       <div>
-        <div className="flex items-start justify-between gap-3 mb-3.5">
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-mono text-xs font-semibold border border-slate-700/80">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-mono text-[11px] font-semibold border border-slate-700/80">
               #{deal.id}
             </span>
             {/* Role indicator */}
             {isBuyer && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
                 <User className="w-3 h-3" /> Buyer
               </span>
             )}
             {isSeller && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
                 <ShoppingBag className="w-3 h-3" /> Seller
               </span>
             )}
           </div>
 
           {/* Status Badge */}
-          <div>
+          <div className="shrink-0">
             {isActive && !isCurrentlyExpired && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 Active
               </span>
             )}
             {isActive && isCurrentlyExpired && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                 <Clock className="w-3 h-3" />
-                Deadline Reached
+                Expired
               </span>
             )}
             {isReleased && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
                 <CheckCircle2 className="w-3 h-3" />
                 Released
               </span>
             )}
             {isReclaimed && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
                 <RotateCcw className="w-3 h-3" />
                 Refunded
               </span>
@@ -139,26 +139,26 @@ export const DealCard: React.FC<DealCardProps> = ({
         </div>
 
         {/* Deal Title & Amount */}
-        <div className="mb-4">
-          <h3 className="text-base font-bold text-white tracking-tight leading-snug line-clamp-2">
+        <div className="mb-3.5">
+          <h3 className="text-sm sm:text-base font-bold text-white tracking-tight leading-snug line-clamp-2 font-display">
             {deal.title}
           </h3>
-          <div className="mt-1.5 flex items-baseline gap-2">
-            <span className="text-xl font-bold text-white font-mono tracking-tight">
-              {deal.amountEth} <span className="text-sm font-sans font-normal text-slate-400">ETH</span>
+          <div className="mt-1 flex items-baseline gap-1.5">
+            <span className="text-lg sm:text-xl font-bold text-white font-mono tracking-tight">
+              {deal.amountEth} <span className="text-xs font-sans font-normal text-slate-400">ETH</span>
             </span>
           </div>
         </div>
 
-        {/* Counterparty Address Matrix */}
-        <div className="space-y-2 p-3 rounded-xl bg-[#090d16]/70 border border-slate-800 text-xs mb-4">
+        {/* Counterparty Address Box */}
+        <div className="space-y-1.5 p-2.5 sm:p-3 rounded-xl bg-[#090d16]/70 border border-slate-800 text-xs mb-3.5">
           {/* Buyer */}
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-slate-400 flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-blue-400" />
+          <div className="flex items-center justify-between gap-1.5">
+            <span className="text-slate-400 flex items-center gap-1 text-[11px]">
+              <User className="w-3 h-3 text-blue-400 shrink-0" />
               Buyer:
             </span>
-            <div className="flex items-center gap-1.5 font-mono text-slate-300">
+            <div className="flex items-center gap-1 font-mono text-slate-300 text-[11px]">
               <a
                 href={getExplorerAddressUrl(deal.buyer)}
                 target="_blank"
@@ -166,7 +166,7 @@ export const DealCard: React.FC<DealCardProps> = ({
                 className="hover:text-blue-400 transition-colors"
                 title="View on Basescan"
               >
-                {truncateAddress(deal.buyer, 6, 4)}
+                {truncateAddress(deal.buyer, 5, 3)}
               </a>
               <button
                 onClick={() => copyAddress(deal.buyer, true)}
@@ -179,12 +179,12 @@ export const DealCard: React.FC<DealCardProps> = ({
           </div>
 
           {/* Seller */}
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-slate-400 flex items-center gap-1.5">
-              <ShoppingBag className="w-3.5 h-3.5 text-purple-400" />
+          <div className="flex items-center justify-between gap-1.5">
+            <span className="text-slate-400 flex items-center gap-1 text-[11px]">
+              <ShoppingBag className="w-3 h-3 text-purple-400 shrink-0" />
               Seller:
             </span>
-            <div className="flex items-center gap-1.5 font-mono text-slate-300">
+            <div className="flex items-center gap-1 font-mono text-slate-300 text-[11px]">
               <a
                 href={getExplorerAddressUrl(deal.seller)}
                 target="_blank"
@@ -192,7 +192,7 @@ export const DealCard: React.FC<DealCardProps> = ({
                 className="hover:text-purple-400 transition-colors"
                 title="View on Basescan"
               >
-                {truncateAddress(deal.seller, 6, 4)}
+                {truncateAddress(deal.seller, 5, 3)}
               </a>
               <button
                 onClick={() => copyAddress(deal.seller, false)}
@@ -206,78 +206,78 @@ export const DealCard: React.FC<DealCardProps> = ({
         </div>
 
         {/* Deadline & Created At */}
-        <div className="grid grid-cols-2 gap-2 text-xs text-slate-400 mb-4">
-          <div className="p-2.5 rounded-xl bg-[#090d16]/50 border border-slate-800/80">
+        <div className="grid grid-cols-2 gap-2 text-xs text-slate-400 mb-3.5">
+          <div className="p-2 rounded-xl bg-[#090d16]/50 border border-slate-800/80">
             <span className="block text-[10px] uppercase font-semibold text-slate-500 mb-0.5">
               Created
             </span>
-            <span className="text-slate-300">{deal.createdAtFormatted.split(',')[0]}</span>
+            <span className="text-slate-300 text-[11px] truncate block">{deal.createdAtFormatted.split(',')[0]}</span>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-[#090d16]/50 border border-slate-800/80">
+          <div className="p-2 rounded-xl bg-[#090d16]/50 border border-slate-800/80">
             <span className="block text-[10px] uppercase font-semibold text-slate-500 mb-0.5">
-              {isActive ? 'Deadline' : 'Settlement'}
+              {isActive ? 'Deadline' : 'Status'}
             </span>
-            <span className={`font-medium ${isCurrentlyExpired && isActive ? 'text-amber-400' : 'text-slate-300'}`}>
-              {isActive ? timeLeftStr : deal.deadlineFormatted.split(',')[0]}
+            <span className={`text-[11px] font-medium truncate block ${isCurrentlyExpired && isActive ? 'text-amber-400' : 'text-slate-300'}`}>
+              {isActive ? timeLeftStr : 'Settled'}
             </span>
           </div>
         </div>
       </div>
 
       {/* Card Actions Footer */}
-      <div className="pt-3 border-t border-slate-800/80">
+      <div className="pt-2.5 border-t border-slate-800/80">
         {isActive ? (
           <div className="space-y-2">
             {isBuyer ? (
-              <>
-                <div className="grid grid-cols-2 gap-2">
-                  {/* Release Button */}
-                  <button
-                    onClick={() => setShowConfirmRelease(true)}
-                    disabled={isActionLoading}
-                    className="w-full px-3 py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-all flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Release</span>
-                  </button>
+              <div className="grid grid-cols-2 gap-2">
+                {/* Release Button */}
+                <button
+                  onClick={() => setShowConfirmRelease(true)}
+                  disabled={isActionLoading}
+                  className="w-full px-2.5 py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-all flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Release</span>
+                </button>
 
-                  {/* Reclaim Button */}
-                  <button
-                    onClick={() => setShowConfirmReclaim(true)}
-                    disabled={!canReclaim || isActionLoading}
-                    className={`w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 border ${
-                      canReclaim
-                        ? 'bg-rose-500/15 text-rose-300 border-rose-500/30 hover:bg-rose-500/25 cursor-pointer'
-                        : 'bg-slate-900 text-slate-600 border-slate-800 cursor-not-allowed'
-                    }`}
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    <span>{isCurrentlyExpired ? 'Refund' : 'Refund (Locked)'}</span>
-                  </button>
-                </div>
-              </>
+                {/* Reclaim Button */}
+                <button
+                  onClick={() => setShowConfirmReclaim(true)}
+                  disabled={!canReclaim || isActionLoading}
+                  className={`w-full px-2.5 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 border ${
+                    canReclaim
+                      ? 'bg-rose-500/15 text-rose-300 border-rose-500/30 hover:bg-rose-500/25 cursor-pointer'
+                      : 'bg-slate-900 text-slate-600 border-slate-800 cursor-not-allowed'
+                  }`}
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{isCurrentlyExpired ? 'Refund' : 'Refund'}</span>
+                </button>
+              </div>
             ) : isSeller ? (
-              <div className="p-2.5 rounded-xl bg-purple-950/20 border border-purple-900/30 text-center">
-                <p className="text-xs text-purple-300 font-medium">
-                  Deliver to buyer to receive payment release.
+              <div className="p-2 rounded-xl bg-purple-950/20 border border-purple-900/30 text-center">
+                <p className="text-[11px] text-purple-300 font-medium">
+                  Deliver to buyer for release.
                 </p>
               </div>
             ) : (
               <div className="p-2 rounded-xl bg-slate-900/50 border border-slate-800 text-center">
                 <p className="text-[11px] text-slate-400">
-                  Buyer: {truncateAddress(deal.buyer, 4, 3)}
+                  {userAddress
+                    ? `Buyer: ${truncateAddress(deal.buyer, 4, 3)}`
+                    : 'Log in to manage this deal'}
                 </p>
               </div>
             )}
           </div>
         ) : (
           /* Settled State Notice */
-          <div className="text-center py-0.5">
-            <p className="text-xs text-slate-400 font-medium flex items-center justify-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-slate-500" />
+          <div className="text-center py-1">
+            <p className="text-[11px] text-slate-400 font-medium flex items-center justify-center gap-1.5">
+              <Shield className="w-3 h-3 text-slate-500" />
               <span>
-                {isReleased ? 'Settled: Transferred to seller' : 'Settled: Refunded to buyer'}
+                {isReleased ? 'Funds transferred to seller' : 'Funds refunded to buyer'}
               </span>
             </p>
           </div>
@@ -287,14 +287,14 @@ export const DealCard: React.FC<DealCardProps> = ({
       {/* Release Confirmation Prompt Modal (Portalled) */}
       {showConfirmRelease &&
         createPortal(
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3.5 sm:p-4 bg-black/80 backdrop-blur-sm">
             <div className="w-full max-w-sm bg-[#0f172a] border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
               <div className="flex items-center gap-2.5 text-emerald-400">
                 <CheckCircle2 className="w-5 h-5" />
-                <h4 className="text-sm font-bold text-white">Release Payment</h4>
+                <h4 className="text-sm font-bold text-white font-display">Release Payment</h4>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Release <strong className="text-white font-mono">{deal.amountEth} ETH</strong> to the seller ({truncateAddress(deal.seller)})? This immediately completes the deal.
+                Release <strong className="text-white font-mono">{deal.amountEth} ETH</strong> to the seller ({truncateAddress(deal.seller, 5, 3)})? This immediately completes the deal.
               </p>
               <div className="flex items-center justify-end gap-2 pt-2">
                 <button
@@ -323,11 +323,11 @@ export const DealCard: React.FC<DealCardProps> = ({
       {/* Reclaim Confirmation Prompt Modal (Portalled) */}
       {showConfirmReclaim &&
         createPortal(
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3.5 sm:p-4 bg-black/80 backdrop-blur-sm">
             <div className="w-full max-w-sm bg-[#0f172a] border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
               <div className="flex items-center gap-2.5 text-rose-400">
                 <RotateCcw className="w-5 h-5" />
-                <h4 className="text-sm font-bold text-white">Reclaim Deposit</h4>
+                <h4 className="text-sm font-bold text-white font-display">Reclaim Deposit</h4>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
                 The deadline has elapsed. Reclaim your <strong className="text-white font-mono">{deal.amountEth} ETH</strong> deposit back to your wallet?
@@ -358,4 +358,3 @@ export const DealCard: React.FC<DealCardProps> = ({
     </div>
   );
 };
-

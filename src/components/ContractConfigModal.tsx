@@ -53,16 +53,16 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
   };
 
   const modalElement = (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
       <div className="relative w-full max-w-lg bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
               <Cpu className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white tracking-tight">Contract Settings</h2>
+              <h2 className="text-sm font-bold text-white tracking-tight font-display">Contract Settings</h2>
               <p className="text-[11px] text-slate-400">Base Sepolia escrow contract details</p>
             </div>
           </div>
@@ -75,7 +75,7 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4 text-xs text-slate-300">
+        <div className="p-4 sm:p-6 space-y-3.5 sm:space-y-4 text-xs text-slate-300">
           {/* Active Contract Info */}
           <div className="p-3.5 rounded-xl bg-[#090d16] border border-slate-800 space-y-2.5">
             <div className="flex items-center justify-between">

@@ -2,18 +2,58 @@
 @import "@rainbow-me/rainbowkit/styles.css";
 
 @layer base {
+  :root {
+    --font-display: 'Outfit', sans-serif;
+    --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html {
+    overflow-x: hidden;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-sans);
     background-color: #090d16;
-    color: #f8fafc;
+    color: #f1f5f9;
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.012em;
+    touch-action: manipulation;
+  }
+
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
   }
 
   code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum' on, 'zero' on;
+    letter-spacing: -0.02em;
   }
+}
+
+/* Hide scrollbars on horizontal scroll tabs */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Custom subtle scrollbars */
