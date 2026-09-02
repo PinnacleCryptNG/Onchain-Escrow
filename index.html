@@ -2,18 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Onchain Escrow | Trustless Peer-to-Peer Settlement</title>
-    <meta name="description" content="Trustless onchain escrow application on Base Sepolia where buyers lock funds, sellers deliver, and smart contracts enforce release or deadline-based reclaim without middlemen." />
-    <meta property="og:title" content="Onchain Escrow | Trustless Peer-to-Peer Settlement" />
-    <meta property="og:description" content="Trustless onchain escrow application on Base Sepolia where buyers lock funds, sellers deliver, and smart contracts enforce release or deadline-based reclaim without middlemen." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Onchain Escrow | Safe Peer-to-Peer Payments</title>
+    <meta name="description" content="Simple, secure smart contract escrow on Base Sepolia. Lock funds safely, approve release upon delivery, or get refunded on deadline." />
+    <meta property="og:title" content="Onchain Escrow | Safe Peer-to-Peer Payments" />
+    <meta property="og:description" content="Simple, secure smart contract escrow on Base Sepolia. Lock funds safely, approve release upon delivery, or get refunded on deadline." />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+      window.global = window;
+      window.process = window.process || { env: {} };
+    </script>
   </head>
-  <body>
+  <body class="bg-[#090d16] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, ShieldCheck, Activity, Users, Zap } from 'lucide-react';
+import { Lock, CheckCircle2, FileText, Zap } from 'lucide-react';
 import { DealDisplay, DealStatus } from '../types.ts';
 
 interface ProtocolStatsProps {
@@ -14,65 +14,60 @@ export const ProtocolStats: React.FC<ProtocolStatsProps> = ({
   dealCount,
 }) => {
   const activeDeals = deals.filter((d) => d.status === DealStatus.Active);
-  const releasedDeals = deals.filter((d) => d.status === DealStatus.Released);
+  const completedDeals = deals.filter(
+    (d) => d.status === DealStatus.Released || d.status === DealStatus.Reclaimed
+  );
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {/* Locked TVL */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
-        <div className="flex items-center justify-between text-slate-400 mb-2">
-          <span className="text-xs font-semibold uppercase tracking-wider">Total Value Locked</span>
-          <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-            <Layers className="w-3.5 h-3.5" />
-          </div>
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+        <div className="flex items-center justify-between text-slate-400 mb-1.5">
+          <span className="text-xs font-medium">Funds in Escrow</span>
+          <Lock className="w-3.5 h-3.5 text-blue-400" />
         </div>
-        <div className="text-xl sm:text-2xl font-extrabold text-white font-mono tracking-tight">
-          {contractBalanceEth} ETH
+        <div className="text-xl sm:text-2xl font-bold text-white font-mono tracking-tight">
+          {contractBalanceEth} <span className="text-sm font-sans font-normal text-slate-400">ETH</span>
         </div>
-        <p className="text-[11px] text-slate-400 mt-1">Currently in escrow custody</p>
+        <p className="text-[11px] text-slate-400 mt-1">Currently protected</p>
       </div>
 
       {/* Active Escrow Deals */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
-        <div className="flex items-center justify-between text-slate-400 mb-2">
-          <span className="text-xs font-semibold uppercase tracking-wider">Active Deals</span>
-          <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <Activity className="w-3.5 h-3.5" />
-          </div>
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+        <div className="flex items-center justify-between text-slate-400 mb-1.5">
+          <span className="text-xs font-medium">Active Deals</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
         </div>
-        <div className="text-xl sm:text-2xl font-extrabold text-white font-mono tracking-tight">
+        <div className="text-xl sm:text-2xl font-bold text-white font-mono tracking-tight">
           {activeDeals.length}
         </div>
-        <p className="text-[11px] text-slate-400 mt-1">Awaiting delivery or deadline</p>
+        <p className="text-[11px] text-slate-400 mt-1">In progress</p>
       </div>
 
       {/* Total Settled Deals */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
-        <div className="flex items-center justify-between text-slate-400 mb-2">
-          <span className="text-xs font-semibold uppercase tracking-wider">Total Historical Deals</span>
-          <div className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <Users className="w-3.5 h-3.5" />
-          </div>
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+        <div className="flex items-center justify-between text-slate-400 mb-1.5">
+          <span className="text-xs font-medium">Total Deals</span>
+          <FileText className="w-3.5 h-3.5 text-slate-400" />
         </div>
-        <div className="text-xl sm:text-2xl font-extrabold text-white font-mono tracking-tight">
+        <div className="text-xl sm:text-2xl font-bold text-white font-mono tracking-tight">
           {dealCount}
         </div>
-        <p className="text-[11px] text-slate-400 mt-1">Created on Base Sepolia</p>
+        <p className="text-[11px] text-slate-400 mt-1">{completedDeals.length} settled</p>
       </div>
 
-      {/* Trustless Security */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
-        <div className="flex items-center justify-between text-slate-400 mb-2">
-          <span className="text-xs font-semibold uppercase tracking-wider">Protocol Fee</span>
-          <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-            <Zap className="w-3.5 h-3.5" />
-          </div>
+      {/* Fee */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+        <div className="flex items-center justify-between text-slate-400 mb-1.5">
+          <span className="text-xs font-medium">Escrow Fee</span>
+          <Zap className="w-3.5 h-3.5 text-amber-400" />
         </div>
-        <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 font-mono tracking-tight">
-          0.00%
+        <div className="text-xl sm:text-2xl font-bold text-emerald-400 font-mono tracking-tight">
+          0%
         </div>
-        <p className="text-[11px] text-slate-400 mt-1">100% peer-to-peer, no cuts</p>
+        <p className="text-[11px] text-slate-400 mt-1">Direct peer-to-peer</p>
       </div>
     </div>
   );
 };
+

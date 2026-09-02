@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { X, Lock, AlertCircle, Clock, ArrowRight, Shield, CheckCircle2, User, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { X, Lock, AlertCircle, Shield } from 'lucide-react';
 import { isAddress, getAddress } from 'viem';
-import { useAccount } from 'wagmi';
-import { usePrivy } from '@privy-io/react-auth';
+import { useAppAuth } from '../context/AuthContext.tsx';
 
 interface CreateDealModalProps {
   isOpen: boolean;
@@ -11,7 +11,7 @@ interface CreateDealModalProps {
 }
 
 const DEADLINE_PRESETS = [
-  { label: '15 Mins (Demo)', seconds: 15 * 60 },
+  { label: '15 Minutes', seconds: 15 * 60 },
   { label: '1 Hour', seconds: 60 * 60 },
   { label: '24 Hours', seconds: 24 * 60 * 60 },
   { label: '3 Days', seconds: 3 * 24 * 60 * 60 },
@@ -26,8 +26,9 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const { address: userAddress, isConnected } = useAccount();
-  const { authenticated, login } = usePrivy();
+  const { profile, loginWithPrivy } = useAppAuth();
+  const userAddress = profile.address;
+  const isAuthenticated = profile.isAuthenticated;
 
   const [title, setTitle] = useState('');
   const [seller, setSeller] = useState('');
@@ -37,8 +38,13 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
   const [customDateTime, setCustomDateTime] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const calculateDeadlineUnix = (): number => {
     const nowSec = Math.floor(Date.now() / 1000);
@@ -54,13 +60,13 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
     e.preventDefault();
     setErrorMsg(null);
 
-    if (!isConnected || !userAddress) {
-      setErrorMsg('Please connect your Web3 wallet first.');
+    if (!isAuthenticated || !userAddress) {
+      setErrorMsg('Please connect your wallet first.');
       return;
     }
 
     if (!title.trim()) {
-      setErrorMsg('Please enter a descriptive deal title.');
+      setErrorMsg('Please enter a deal title or description.');
       return;
     }
 
@@ -71,20 +77,20 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
     const cleanSeller = getAddress(seller.trim());
     if (cleanSeller.toLowerCase() === userAddress.toLowerCase()) {
-      setErrorMsg('Seller address cannot be your own connected wallet.');
+      setErrorMsg('Seller address cannot be your own wallet address.');
       return;
     }
 
     const parsedEth = parseFloat(amountEth);
     if (!amountEth || isNaN(parsedEth) || parsedEth <= 0) {
-      setErrorMsg('Please enter a valid ETH amount greater than 0.');
+      setErrorMsg('Please enter an ETH deposit amount greater than 0.');
       return;
     }
 
     const deadlineUnix = calculateDeadlineUnix();
     const nowSec = Math.floor(Date.now() / 1000);
     if (!deadlineUnix || deadlineUnix <= nowSec) {
-      setErrorMsg('The reclaim deadline must be in the future.');
+      setErrorMsg('The refund deadline must be in the future.');
       return;
     }
 
@@ -104,33 +110,33 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-8">
+  const modalElement = (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-950/60">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+        <div className="flex items-center justify-between px-6 py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight">Create Escrow Deal</h2>
-              <p className="text-xs text-slate-400">Lock ETH funds into smart contract referee</p>
+              <h2 className="text-sm font-bold text-white tracking-tight">Create Escrow Deal</h2>
+              <p className="text-[11px] text-slate-400">Deposit ETH safely on Base Sepolia</p>
             </div>
           </div>
           <button
             onClick={onClose}
             disabled={isSubmitting}
-            className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-colors"
+            className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-start gap-2.5">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
               <span>{errorMsg}</span>
             </div>
@@ -138,104 +144,90 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
           {/* Deal Title */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
-              Deal Title / Reference
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              Deal Title or Deliverable Description
             </label>
             <input
               type="text"
-              required
-              placeholder="e.g. 3D Model Deliverables, Domain Name Purchase"
+              placeholder="e.g. Website Design Milestone 1"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Seller Address */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
-              Seller Counterparty Address
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                required
-                placeholder="0x..."
-                value={seller}
-                onChange={(e) => setSeller(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              />
-              <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-semibold text-slate-300">
+                Seller's Wallet Address
+              </label>
             </div>
-            <p className="mt-1 text-[11px] text-slate-400">
-              The wallet address that will receive the funds once you release them.
-            </p>
+            <input
+              type="text"
+              placeholder="0x..."
+              value={seller}
+              onChange={(e) => setSeller(e.target.value)}
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 font-mono text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+            />
           </div>
 
-          {/* Escrow Amount */}
+          {/* Amount in ETH */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              <label className="block text-xs font-semibold text-slate-300">
                 Deposit Amount (ETH)
               </label>
-              <span className="text-[11px] text-blue-400">Base Sepolia ETH</span>
+              <span className="text-[11px] text-slate-400">Base Sepolia</span>
             </div>
             <input
               type="number"
               step="0.0001"
-              min="0.000001"
-              required
               placeholder="0.01"
               value={amountEth}
               onChange={(e) => setAmountEth(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono text-base placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
             />
-            {/* Quick amount chips */}
-            <div className="flex items-center gap-1.5 mt-2 overflow-x-auto pb-1">
-              <span className="text-[11px] text-slate-400 mr-1">Presets:</span>
-              {ETH_PRESETS.map((preset) => (
-                <button
-                  type="button"
-                  key={preset}
-                  onClick={() => setAmountEth(preset)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-mono border transition-colors ${
-                    amountEth === preset
-                      ? 'bg-blue-600 text-white border-blue-500'
-                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
-                  }`}
-                >
-                  {preset} ETH
-                </button>
-              ))}
+
+            {/* Quick Presets */}
+            <div className="flex items-center gap-1.5 mt-2">
+              <span className="text-[11px] text-slate-500">Presets:</span>
+              <div className="flex flex-wrap gap-1.5">
+                {ETH_PRESETS.map((eth) => (
+                  <button
+                    type="button"
+                    key={eth}
+                    onClick={() => setAmountEth(eth)}
+                    className="px-2 py-0.5 rounded-lg text-xs font-mono bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition-colors cursor-pointer"
+                  >
+                    {eth} ETH
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Reclaim Deadline */}
+          {/* Deadline Setting */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-blue-400" />
-                Delivery Deadline & Reclaim Time
+              <label className="block text-xs font-semibold text-slate-300">
+                Delivery Deadline / Refund Window
               </label>
-              <div className="flex items-center gap-2 text-xs">
+              <div className="flex items-center rounded-lg bg-[#090d16] p-0.5 border border-slate-800 text-xs">
                 <button
                   type="button"
                   onClick={() => setDeadlineMode('preset')}
-                  className={`px-2 py-0.5 rounded transition-colors ${
-                    deadlineMode === 'preset'
-                      ? 'bg-slate-800 text-blue-400 font-semibold'
-                      : 'text-slate-400 hover:text-white'
+                  className={`px-2 py-0.5 rounded-md text-[11px] transition-colors cursor-pointer ${
+                    deadlineMode === 'preset' ? 'bg-slate-800 text-white font-medium' : 'text-slate-400'
                   }`}
                 >
-                  Presets
+                  Preset
                 </button>
                 <button
                   type="button"
                   onClick={() => setDeadlineMode('custom')}
-                  className={`px-2 py-0.5 rounded transition-colors ${
-                    deadlineMode === 'custom'
-                      ? 'bg-slate-800 text-blue-400 font-semibold'
-                      : 'text-slate-400 hover:text-white'
+                  className={`px-2 py-0.5 rounded-md text-[11px] transition-colors cursor-pointer ${
+                    deadlineMode === 'custom' ? 'bg-slate-800 text-white font-medium' : 'text-slate-400'
                   }`}
                 >
                   Custom
@@ -250,10 +242,10 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                     type="button"
                     key={p.seconds}
                     onClick={() => setSelectedPresetSeconds(p.seconds)}
-                    className={`px-3 py-2 rounded-xl text-xs font-medium border text-left transition-all ${
+                    className={`px-2.5 py-1.5 rounded-xl text-xs border text-left transition-all cursor-pointer ${
                       selectedPresetSeconds === p.seconds
-                        ? 'bg-blue-600/20 border-blue-500 text-blue-300 ring-1 ring-blue-500'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                        ? 'bg-blue-600/20 border-blue-500 text-blue-300'
+                        : 'bg-[#090d16] border-slate-800 text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {p.label}
@@ -266,62 +258,44 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                 value={customDateTime}
                 onChange={(e) => setCustomDateTime(e.target.value)}
                 min={new Date(Date.now() + 60000).toISOString().slice(0, 16)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs focus:outline-none focus:border-blue-500"
               />
             )}
-
-            <p className="mt-2 text-[11px] text-slate-400">
-              If the seller does not deliver by this deadline, you can trigger a 100% refund reclamation.
-            </p>
-          </div>
-
-          {/* Escrow Guarantee Infobox */}
-          <div className="p-4 rounded-xl bg-blue-950/20 border border-blue-900/40 text-xs text-slate-300 space-y-2">
-            <div className="flex items-center gap-2 font-semibold text-blue-300">
-              <Shield className="w-4 h-4 text-blue-400" />
-              <span>Trustless Referee Guarantee</span>
-            </div>
-            <ul className="space-y-1.5 text-slate-400 list-disc list-inside text-[11px]">
-              <li>Funds remain locked in the onchain contract until you release them.</li>
-              <li>Only you (the buyer) can trigger release to the seller.</li>
-              <li>You can reclaim 100% of your deposit immediately if the deadline passes.</li>
-            </ul>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-800/80">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white bg-slate-800/50 hover:bg-slate-800 transition-colors"
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 transition-colors cursor-pointer"
             >
               Cancel
             </button>
-            {!authenticated ? (
+            {!isAuthenticated ? (
               <button
                 type="button"
-                onClick={() => login()}
-                className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-indigo-600/25 transition-all flex items-center gap-2"
+                onClick={() => loginWithPrivy()}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-sm transition-all cursor-pointer"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>Log In with Privy to Deposit</span>
+                Sign in to Create Deal
               </button>
             ) : (
               <button
                 type="submit"
-                disabled={isSubmitting || !isConnected}
-                className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-600/25 disabled:opacity-50 transition-all flex items-center gap-2"
+                disabled={isSubmitting}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-sm disabled:opacity-50 transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Submitting to Chain...</span>
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Processing...</span>
                   </>
                 ) : (
                   <>
-                    <Lock className="w-4 h-4" />
-                    <span>Deposit & Create Deal</span>
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Deposit & Lock</span>
                   </>
                 )}
               </button>
@@ -331,4 +305,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
       </div>
     </div>
   );
+
+  return createPortal(modalElement, document.body);
 };
+

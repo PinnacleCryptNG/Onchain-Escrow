@@ -1,6 +1,6 @@
-import { createConfig } from '@privy-io/wagmi';
-import { http } from 'wagmi';
+import { createConfig, http } from 'wagmi';
 import { baseSepolia, base } from 'wagmi/chains';
+import { injected } from 'wagmi/connectors';
 
 const alchemyKey = import.meta.env.VITE_ALCHEMY_API_KEY;
 
@@ -10,6 +10,12 @@ const baseSepoliaRpcUrl = alchemyKey
 
 export const config = createConfig({
   chains: [baseSepolia, base],
+  connectors: [
+    injected({
+      target: 'metaMask',
+    }),
+    injected(),
+  ],
   transports: {
     [baseSepolia.id]: http(baseSepoliaRpcUrl),
     [base.id]: http(),

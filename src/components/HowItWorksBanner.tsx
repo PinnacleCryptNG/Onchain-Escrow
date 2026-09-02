@@ -1,74 +1,68 @@
 import React from 'react';
-import { Lock, PackageCheck, CheckCircle2, RotateCcw, ArrowRight } from 'lucide-react';
+import { Lock, Package, CheckCircle2, RotateCcw } from 'lucide-react';
 
 export const HowItWorksBanner: React.FC = () => {
   return (
-    <div className="rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-6 sm:p-8 shadow-xl">
-      <div className="max-w-3xl mb-6">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-3">
-          <span>Trustless Peer-to-Peer Protocol</span>
-        </div>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-          How Onchain Escrow Protects Both Parties
+    <div className="rounded-2xl bg-slate-900/40 border border-slate-800/80 p-5 sm:p-6">
+      <div className="mb-5">
+        <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+          How Onchain Escrow Works
         </h2>
-        <p className="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-          Strangers can transact without trusting each other or relying on a centralized intermediary. The immutable smart contract acts as the referee.
+        <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          A simple, secure process that guarantees payment safety for both buyers and sellers.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Step 1 */}
-        <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2.5 relative">
-          <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-xs">
-            1
+        <div className="p-4 rounded-xl bg-[#090d16]/80 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-blue-400 font-mono">Step 1</span>
+            <Lock className="w-4 h-4 text-blue-400" />
           </div>
-          <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5 text-blue-400" /> Buyer Locks Funds
-          </h4>
+          <h3 className="text-sm font-semibold text-white">Deposit & Lock</h3>
           <p className="text-xs text-slate-400 leading-relaxed">
-            Buyer deposits ETH into the contract, designates the seller's wallet, and specifies a delivery deadline.
+            Buyer deposits ETH into smart contract escrow, specifies seller's wallet, and sets a delivery deadline.
           </p>
         </div>
 
         {/* Step 2 */}
-        <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2.5 relative">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xs">
-            2
+        <div className="p-4 rounded-xl bg-[#090d16]/80 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-blue-400 font-mono">Step 2</span>
+            <Package className="w-4 h-4 text-blue-400" />
           </div>
-          <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-            <PackageCheck className="w-3.5 h-3.5 text-indigo-400" /> Seller Delivers
-          </h4>
+          <h3 className="text-sm font-semibold text-white">Seller Delivers</h3>
           <p className="text-xs text-slate-400 leading-relaxed">
-            Seller verifies the funds are securely locked in the smart contract and proceeds to fulfill the delivery.
+            Seller verifies funds are safely locked onchain and fulfills the order or service with peace of mind.
           </p>
         </div>
 
         {/* Step 3 */}
-        <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2.5 relative">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-xs">
-            3
+        <div className="p-4 rounded-xl bg-[#090d16]/80 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-emerald-400 font-mono">Step 3</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           </div>
-          <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Buyer Releases
-          </h4>
+          <h3 className="text-sm font-semibold text-white">Release Payment</h3>
           <p className="text-xs text-slate-400 leading-relaxed">
-            Once satisfied, the buyer clicks release to instantly transfer 100% of the locked ETH to the seller.
+            Upon receipt and satisfaction, buyer clicks release to instantly transfer 100% of the funds to the seller.
           </p>
         </div>
 
         {/* Step 4 */}
-        <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2.5 relative">
-          <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-xs">
-            4
+        <div className="p-4 rounded-xl bg-[#090d16]/80 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-rose-400 font-mono">Step 4</span>
+            <RotateCcw className="w-4 h-4 text-rose-400" />
           </div>
-          <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-            <RotateCcw className="w-3.5 h-3.5 text-amber-400" /> Or Buyer Reclaims
-          </h4>
+          <h3 className="text-sm font-semibold text-white">Refund Protection</h3>
           <p className="text-xs text-slate-400 leading-relaxed">
-            If the seller fails to deliver before the deadline, the buyer can reclaim their full deposit onchain.
+            If the deadline passes and goods are not delivered, buyer reclaims their full deposit back onchain.
           </p>
         </div>
       </div>
     </div>
   );
 };
+

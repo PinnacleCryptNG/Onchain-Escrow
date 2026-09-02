@@ -4,9 +4,11 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #0b0f19;
-    color: #f1f5f9;
+    background-color: #090d16;
+    color: #f8fafc;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   code, pre, .font-mono {
@@ -14,19 +16,20 @@
   }
 }
 
-/* Custom scrollbars */
+/* Custom subtle scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #090d16;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #1e293b;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #334155;
 }
+
 
