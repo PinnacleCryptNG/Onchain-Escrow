@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar.tsx';
 import { ProtocolStats } from './components/ProtocolStats.tsx';
 import { HowItWorksBanner } from './components/HowItWorksBanner.tsx';
@@ -7,6 +7,8 @@ import { CreateDealModal } from './components/CreateDealModal.tsx';
 import { TransactionModal } from './components/TransactionModal.tsx';
 import { ContractConfigModal } from './components/ContractConfigModal.tsx';
 import { PrivyAuthModal } from './components/PrivyAuthModal.tsx';
+import { LandingPage } from './components/LandingPage.tsx';
+import { OpeningLoader } from './components/OpeningLoader.tsx';
 import { useEscrow } from './hooks/useEscrow.ts';
 import { useAppAuth } from './context/AuthContext.tsx';
 import { ShieldCheck, Plus, ExternalLink, Droplets, Lock } from 'lucide-react';
@@ -15,6 +17,24 @@ import { getExplorerAddressUrl, truncateAddress } from './contract/config.ts';
 export default function App() {
   const { profile, loginWithPrivy } = useAppAuth();
   const userAddress = profile.address || undefined;
+  const isAuthenticated = profile.isAuthenticated && !!profile.address;
+
+  // Opening animation state - plays before the landing page opens
+  const [showOpeningLoader, setShowOpeningLoader] = useState(true);
+
+  // App gating: everything is hidden until the user logs in or connects a wallet
+  const [currentView, setCurrentView] = useState<'landing' | 'app'>('landing');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+
+  // Strict enforcement: if authenticated, unlock app; if unauthenticated, strictly show landing
+  useEffect(() => {
+    if (isAuthenticated) {
+      setCurrentView('app');
+    } else {
+      setCurrentView('landing');
+    }
+  }, [isAuthenticated]);
 
   const {
     contractAddress,
@@ -31,11 +51,38 @@ export default function App() {
     refreshDeals,
   } = useEscrow();
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+  // 1. Opening Animation: Plays before the landing page opens
+  if (showOpeningLoader) {
+    return <OpeningLoader onComplete={() => setShowOpeningLoader(false)} />;
+  }
+
+  // 2. Strict Authentication Gating:
+  // Everything is hidden until a user logs in or connects wallet
+  if (!isAuthenticated || currentView === 'landing') {
+    return (
+      <div className="min-h-screen w-full bg-[#090d16] text-slate-100 flex flex-col selection:bg-emerald-600 selection:text-white overflow-x-hidden">
+        <LandingPage
+          contractAddress={contractAddress}
+          contractBalanceEth={contractBalanceEth}
+          dealCount={dealCount}
+          deals={deals}
+          onEnterApp={() => {
+            if (isAuthenticated) {
+              setCurrentView('app');
+            } else {
+              loginWithPrivy();
+            }
+          }}
+        />
+
+        {/* Global Auth Modal */}
+        <PrivyAuthModal />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen w-full bg-[#090d16] text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white overflow-x-hidden">
+    <div className="min-h-screen w-full bg-[#090d16] text-slate-100 flex flex-col selection:bg-emerald-600 selection:text-white overflow-x-hidden">
       {/* Top Navigation */}
       <Navbar
         contractAddress={contractAddress}
@@ -45,15 +92,16 @@ export default function App() {
         onOpenCreateDeal={() => setIsCreateModalOpen(true)}
         onRefresh={refreshDeals}
         isRefreshing={isDealsLoading}
+        onGoToLanding={() => setCurrentView('landing')}
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5 sm:space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-4 sm:space-y-6">
         {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-2xl bg-[#0f172a] border border-slate-800 p-4 sm:p-6 lg:p-8">
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 sm:gap-6">
+        <div className="relative overflow-hidden rounded-2xl bg-[#0f172a] border border-slate-800 p-4 sm:p-6 lg:p-7">
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6">
             <div className="max-w-2xl space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[11px] sm:text-xs font-semibold">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] sm:text-xs font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">Base Sepolia • Non-Custodial Smart Escrow</span>
               </div>
@@ -66,10 +114,10 @@ export default function App() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
-              {profile.isAuthenticated && profile.address ? (
+              {isAuthenticated ? (
                 <button
                   onClick={() => setIsCreateModalOpen(true)}
-                  className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Create Escrow Deal</span>
@@ -77,10 +125,10 @@ export default function App() {
               ) : (
                 <button
                   onClick={loginWithPrivy}
-                  className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
-                  <Lock className="w-4 h-4 text-white" />
-                  <span>Log In to Transact</span>
+                  <Lock className="w-4 h-4 text-emerald-400" />
+                  <span>Log In to Start Deals</span>
                 </button>
               )}
             </div>
@@ -98,16 +146,18 @@ export default function App() {
         <HowItWorksBanner />
 
         {/* Live Deals Section */}
-        <section className="space-y-4 pt-1 sm:pt-2">
-          <div>
-            <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight font-display">
-              Onchain Escrow Deals
-            </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              {userAddress
-                ? `Connected: ${profile.name || truncateAddress(userAddress, 5, 4)}`
-                : 'Connect your wallet or log in with Privy to manage your buyer and seller agreements.'}
-            </p>
+        <section className="space-y-3 sm:space-y-4 pt-1 sm:pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight font-display">
+                Onchain Escrow Deals
+              </h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                {isAuthenticated
+                  ? `Connected: ${profile.name || truncateAddress(userAddress!, 5, 4)}`
+                  : 'Viewing live onchain deals in read-only mode. Connect your wallet to create or manage deals.'}
+              </p>
+            </div>
           </div>
 
           <DealList
@@ -122,10 +172,10 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/60 mt-12 sm:mt-16 py-6 sm:py-8">
+      <footer className="border-t border-slate-800/80 bg-slate-950/60 mt-10 sm:mt-16 py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-slate-400 text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>Onchain Escrow • Base Sepolia Protocol</span>
           </div>
 
@@ -134,7 +184,7 @@ export default function App() {
               href={getExplorerAddressUrl(contractAddress)}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-400 transition-colors flex items-center gap-1 font-mono text-[11px] sm:text-xs"
+              className="hover:text-emerald-400 transition-colors flex items-center gap-1 font-mono text-[11px] sm:text-xs"
             >
               <span>Contract: {truncateAddress(contractAddress, 4, 3)}</span>
               <ExternalLink className="w-3 h-3" />
@@ -144,9 +194,9 @@ export default function App() {
               href="https://www.alchemy.com/faucets/base-sepolia"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-400 transition-colors flex items-center gap-1 text-[11px] sm:text-xs"
+              className="hover:text-emerald-400 transition-colors flex items-center gap-1 text-[11px] sm:text-xs"
             >
-              <Droplets className="w-3 h-3 text-blue-400" />
+              <Droplets className="w-3 h-3 text-teal-400" />
               <span>Base Sepolia Faucet</span>
             </a>
           </div>

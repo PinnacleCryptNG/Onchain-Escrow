@@ -116,7 +116,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
         {/* Modal Header */}
         <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-emerald-600/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
               <Lock className="w-4 h-4" />
             </div>
             <div>
@@ -152,7 +152,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
               placeholder="e.g. Website Design Milestone 1"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-emerald-500"
             />
           </div>
 
@@ -166,7 +166,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
               placeholder="0x..."
               value={seller}
               onChange={(e) => setSeller(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 font-mono text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 font-mono text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-emerald-500"
             />
           </div>
 
@@ -184,7 +184,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
               placeholder="0.01"
               value={amountEth}
               onChange={(e) => setAmountEth(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-emerald-500"
             />
 
             {/* Quick Presets */}
@@ -242,7 +242,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                     onClick={() => setSelectedPresetSeconds(p.seconds)}
                     className={`px-2.5 py-1.5 rounded-xl text-xs border text-left transition-all cursor-pointer ${
                       selectedPresetSeconds === p.seconds
-                        ? 'bg-blue-600/20 border-blue-500 text-blue-300'
+                        ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300'
                         : 'bg-[#090d16] border-slate-800 text-slate-400 hover:text-slate-200'
                     }`}
                   >
@@ -256,7 +256,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                 value={customDateTime}
                 onChange={(e) => setCustomDateTime(e.target.value)}
                 min={new Date(Date.now() + 60000).toISOString().slice(0, 16)}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs focus:outline-none focus:border-blue-500"
+                className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white text-xs focus:outline-none focus:border-emerald-500"
               />
             )}
           </div>
@@ -275,7 +275,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
               <button
                 type="button"
                 onClick={() => loginWithPrivy()}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-sm transition-all cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-all cursor-pointer"
               >
                 Sign in to Create Deal
               </button>
@@ -283,7 +283,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-sm disabled:opacity-50 transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm disabled:opacity-50 transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>

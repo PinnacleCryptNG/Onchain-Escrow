@@ -24,7 +24,7 @@ export const ProtocolStats: React.FC<ProtocolStatsProps> = ({
       <div className="p-3 sm:p-4.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 min-w-0">
         <div className="flex items-center justify-between text-slate-400 mb-1">
           <span className="text-[11px] sm:text-xs font-medium">Funds in Escrow</span>
-          <Lock className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+          <Lock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
         </div>
         <div className="text-lg sm:text-2xl font-bold text-white font-mono tracking-tight truncate">
           {contractBalanceEth} <span className="text-xs sm:text-sm font-sans font-normal text-slate-400">ETH</span>

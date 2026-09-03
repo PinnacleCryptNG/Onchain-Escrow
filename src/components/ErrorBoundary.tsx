@@ -59,8 +59,8 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             {isPrivyError && (
-              <div className="p-4 rounded-xl bg-blue-950/40 border border-blue-800/40 text-xs text-blue-200 space-y-2">
-                <div className="flex items-center gap-1.5 font-semibold text-blue-300">
+              <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-800/40 text-xs text-emerald-200 space-y-2">
+                <div className="flex items-center gap-1.5 font-semibold text-emerald-300">
                   <Shield className="w-4 h-4" />
                   <span>Configuring Privy App ID:</span>
                 </div>
@@ -70,11 +70,11 @@ export class ErrorBoundary extends Component<Props, State> {
                     href="https://dashboard.privy.io"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-blue-400 hover:text-blue-300"
+                    className="underline text-teal-400 hover:text-teal-300"
                   >
                     dashboard.privy.io
                   </a>{' '}
-                  and set <code className="bg-slate-900 px-1 py-0.5 rounded text-blue-300">VITE_PRIVY_APP_ID</code> in <code className="bg-slate-900 px-1 py-0.5 rounded text-blue-300">.env</code>.
+                  and set <code className="bg-slate-900 px-1 py-0.5 rounded text-emerald-300">VITE_PRIVY_APP_ID</code> in <code className="bg-slate-900 px-1 py-0.5 rounded text-emerald-300">.env</code>.
                 </p>
               </div>
             )}
@@ -82,14 +82,14 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex flex-wrap gap-3 pt-2">
               <button
                 onClick={() => window.location.reload()}
-                className="flex-1 py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+                className="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Reload Application</span>
               </button>
               <button
                 onClick={this.handleReset}
-                className="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors"
+                className="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors cursor-pointer"
               >
                 Reset Saved State
               </button>

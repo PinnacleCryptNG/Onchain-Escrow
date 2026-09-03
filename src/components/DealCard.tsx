@@ -98,12 +98,12 @@ export const DealCard: React.FC<DealCardProps> = ({
             </span>
             {/* Role indicator */}
             {isBuyer && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-teal-500/10 text-teal-400 border border-teal-500/20">
                 <User className="w-3 h-3" /> Buyer
               </span>
             )}
             {isSeller && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
                 <ShoppingBag className="w-3 h-3" /> Seller
               </span>
             )}
@@ -124,7 +124,7 @@ export const DealCard: React.FC<DealCardProps> = ({
               </span>
             )}
             {isReleased && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <CheckCircle2 className="w-3 h-3" />
                 Released
               </span>
@@ -155,7 +155,7 @@ export const DealCard: React.FC<DealCardProps> = ({
           {/* Buyer */}
           <div className="flex items-center justify-between gap-1.5">
             <span className="text-slate-400 flex items-center gap-1 text-[11px]">
-              <User className="w-3 h-3 text-blue-400 shrink-0" />
+              <User className="w-3 h-3 text-teal-400 shrink-0" />
               Buyer:
             </span>
             <div className="flex items-center gap-1 font-mono text-slate-300 text-[11px]">
@@ -163,7 +163,7 @@ export const DealCard: React.FC<DealCardProps> = ({
                 href={getExplorerAddressUrl(deal.buyer)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-400 transition-colors"
+                className="hover:text-teal-400 transition-colors"
                 title="View on Basescan"
               >
                 {truncateAddress(deal.buyer, 5, 3)}
@@ -181,7 +181,7 @@ export const DealCard: React.FC<DealCardProps> = ({
           {/* Seller */}
           <div className="flex items-center justify-between gap-1.5">
             <span className="text-slate-400 flex items-center gap-1 text-[11px]">
-              <ShoppingBag className="w-3 h-3 text-purple-400 shrink-0" />
+              <ShoppingBag className="w-3 h-3 text-amber-400 shrink-0" />
               Seller:
             </span>
             <div className="flex items-center gap-1 font-mono text-slate-300 text-[11px]">
@@ -189,7 +189,7 @@ export const DealCard: React.FC<DealCardProps> = ({
                 href={getExplorerAddressUrl(deal.seller)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-purple-400 transition-colors"
+                className="hover:text-amber-400 transition-colors"
                 title="View on Basescan"
               >
                 {truncateAddress(deal.seller, 5, 3)}
@@ -256,8 +256,8 @@ export const DealCard: React.FC<DealCardProps> = ({
                 </button>
               </div>
             ) : isSeller ? (
-              <div className="p-2 rounded-xl bg-purple-950/20 border border-purple-900/30 text-center">
-                <p className="text-[11px] text-purple-300 font-medium">
+              <div className="p-2 rounded-xl bg-amber-950/20 border border-amber-900/30 text-center">
+                <p className="text-[11px] text-amber-300 font-medium">
                   Deliver to buyer for release.
                 </p>
               </div>

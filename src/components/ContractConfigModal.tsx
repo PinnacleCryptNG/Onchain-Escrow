@@ -58,7 +58,7 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4.5 border-b border-slate-800/80 bg-[#090d16]/70">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-emerald-600/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
               <Cpu className="w-4 h-4" />
             </div>
             <div>
@@ -86,7 +86,7 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
                 href={getExplorerAddressUrl(currentAddress)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 font-medium"
+                className="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 font-medium"
               >
                 <span>View on Basescan</span>
                 <ExternalLink className="w-3 h-3" />
@@ -107,9 +107,9 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
           </div>
 
           {/* Architecture & Security Guarantees */}
-          <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 space-y-1.5">
-            <div className="flex items-center gap-2 font-semibold text-blue-300">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
+          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1.5">
+            <div className="flex items-center gap-2 font-semibold text-emerald-300">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Security Guarantee</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-[11px]">
@@ -127,7 +127,7 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
               placeholder="0x..."
-              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white font-mono text-xs focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#090d16] border border-slate-800 text-white font-mono text-xs focus:outline-none focus:border-emerald-500 transition-colors"
             />
             {errorMsg && <p className="text-rose-400 text-[11px]">{errorMsg}</p>}
 
@@ -141,7 +141,7 @@ export const ContractConfigModal: React.FC<ContractConfigModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors cursor-pointer"
               >
                 Save
               </button>

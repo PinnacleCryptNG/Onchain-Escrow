@@ -75,7 +75,7 @@ export const DealList: React.FC<DealListProps> = ({
             onClick={() => setActiveTab('all')}
             className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'all'
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -88,7 +88,7 @@ export const DealList: React.FC<DealListProps> = ({
                 onClick={() => setActiveTab('as_buyer')}
                 className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   activeTab === 'as_buyer'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-emerald-600 text-white shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -98,7 +98,7 @@ export const DealList: React.FC<DealListProps> = ({
                 onClick={() => setActiveTab('as_seller')}
                 className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   activeTab === 'as_seller'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-emerald-600 text-white shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -111,7 +111,7 @@ export const DealList: React.FC<DealListProps> = ({
             onClick={() => setActiveTab('active')}
             className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'active'
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -122,7 +122,7 @@ export const DealList: React.FC<DealListProps> = ({
             onClick={() => setActiveTab('completed')}
             className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'completed'
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -138,7 +138,7 @@ export const DealList: React.FC<DealListProps> = ({
               placeholder="Search by title or address..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
             />
             <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5" />
           </div>
@@ -146,7 +146,7 @@ export const DealList: React.FC<DealListProps> = ({
           {isAuthenticated && (
             <button
               onClick={onOpenCreateDeal}
-              className="hidden xs:inline-flex sm:hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-sm transition-all whitespace-nowrap cursor-pointer shrink-0"
+              className="hidden xs:inline-flex sm:hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-all whitespace-nowrap cursor-pointer shrink-0"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>New</span>
@@ -199,23 +199,15 @@ export const DealList: React.FC<DealListProps> = ({
               ? 'Try changing your search keywords.'
               : isAuthenticated
               ? 'Create your first escrow agreement to lock funds safely on Base Sepolia.'
-              : 'Log in to create escrow agreements or manage your agreements on Base Sepolia.'}
+              : 'Connect your wallet in the navigation bar above to create deals or interact with agreements.'}
           </p>
-          {isAuthenticated ? (
+          {isAuthenticated && (
             <button
               onClick={onOpenCreateDeal}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-sm cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Create Escrow Deal</span>
-            </button>
-          ) : (
-            <button
-              onClick={loginWithPrivy}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-sm cursor-pointer"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              <span>Log In with Privy</span>
             </button>
           )}
         </div>

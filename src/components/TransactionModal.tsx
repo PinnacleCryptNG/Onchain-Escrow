@@ -44,13 +44,13 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           {/* Status Icon */}
           <div className="flex justify-center">
             {isSigning && (
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+              <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
                 <Loader2 className="w-6 h-6 animate-spin" />
               </div>
             )}
             {isMining && (
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-                <div className="w-6 h-6 border-2 border-blue-500/30 border-t-blue-400 rounded-full animate-spin" />
+              <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                <div className="w-6 h-6 border-2 border-teal-500/30 border-t-teal-400 rounded-full animate-spin" />
               </div>
             )}
             {isSuccess && (
@@ -89,7 +89,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 href={getExplorerTxUrl(txState.txHash)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-blue-400 hover:text-blue-300 inline-flex items-center gap-1 font-medium"
+                className="font-mono text-teal-400 hover:text-teal-300 inline-flex items-center gap-1 font-medium"
               >
                 <span>{txState.txHash.slice(0, 8)}...{txState.txHash.slice(-6)}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -103,7 +103,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-sm cursor-pointer"
+                className="w-full py-2 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-sm cursor-pointer"
               >
                 Done
               </button>

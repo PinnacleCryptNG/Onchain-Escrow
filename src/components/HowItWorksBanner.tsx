@@ -17,8 +17,8 @@ export const HowItWorksBanner: React.FC = () => {
         {/* Step 1 */}
         <div className="p-3.5 rounded-xl bg-[#090d16]/80 border border-slate-800 space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-blue-400 font-mono">Step 1</span>
-            <Lock className="w-4 h-4 text-blue-400 shrink-0" />
+            <span className="text-xs font-bold text-teal-400 font-mono">Step 1</span>
+            <Lock className="w-4 h-4 text-teal-400 shrink-0" />
           </div>
           <h3 className="text-xs sm:text-sm font-semibold text-white">Deposit & Lock</h3>
           <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
@@ -29,8 +29,8 @@ export const HowItWorksBanner: React.FC = () => {
         {/* Step 2 */}
         <div className="p-3.5 rounded-xl bg-[#090d16]/80 border border-slate-800 space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-blue-400 font-mono">Step 2</span>
-            <Package className="w-4 h-4 text-blue-400 shrink-0" />
+            <span className="text-xs font-bold text-amber-400 font-mono">Step 2</span>
+            <Package className="w-4 h-4 text-amber-400 shrink-0" />
           </div>
           <h3 className="text-xs sm:text-sm font-semibold text-white">Seller Delivers</h3>
           <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
